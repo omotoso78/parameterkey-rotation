@@ -19,17 +19,6 @@ resource "aws_lambda_function" "ssm_lambda" {
   timeout           = 5
 }
 
-/*resource "aws_lambda_function" "ssm_lambda" {
-  filename      = data.archive_file.ssm-rotation-function.output_path
-  function_name = "ssmkeyrotation_lambda"
-  role          = aws_iam_role.lambda_exec.arn
-  handler       = "ssm-rotation-function.lambda_handler"
-  source_code_hash = data.archive_file.ssm-rotation-function.output_base64sha256
-  runtime = "python3.9"
-  memory_size       = 128
-  timeout           = 5
-}*/
-
 resource "aws_lambda_permission" "allow_api" {
   statement_id  = "AllowExecutionFromAPIGateway" # I changed this old AllowAPIgatewayInvokation
   action        = "lambda:InvokeFunction"
