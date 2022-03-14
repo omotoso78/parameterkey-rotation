@@ -22,8 +22,8 @@ POLICY
 
 ##configure inline policy (using data source option to be completed later)
 
-resource "aws_iam_policy" "ssm_inline" {
-  name        = "ssm_lambda_inline"
+resource "aws_iam_policy" "ssm_policy" {
+  name        = "ssm_lambda_policy"
   path        = "/"
   description = "MANAGED BY TERRAFORM Allow ssm_lambda to log"
 
@@ -33,66 +33,22 @@ resource "aws_iam_policy" "ssm_inline" {
     "Statement": [
         {
           "Effect": "Allow",
-          "Action": "sts:AssumeRole",
-          "Resource": "aws_lambda_function.ssm_lambda.arn"
+          "Action": ["log:*"],
+          "Resource": "${aws_lambda_function.ssm_lambda.arn}/*"
         },
         {
           "Effect": "Allow",
           "Action": ["ssm:*"],
-          "Resource": "aws_lambda_function.ssm_lambda.arn"
+          "Resource": "${aws_lambda_function.ssm_lambda.arn}/*"
         }
     ]
 }
 POLICY
 }
 
-
-/*data "aws_iam_policy_document" "ssm_lambda_inline" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "cloudwatch:PutMetricData"
-    ]
-
-    resources = [
-      aws_lambda_function.ssm_lambda.arn
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "logs:*"
-    ]
-
-    resources = [
-      aws_lambda_function.ssm_lambda.arn,
-    ]
-
-    }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "ssm:*"
-    ]
-
-    resources = [
-      aws_lambda_function.ssm_lambda.arn,
-    ]
-  }
-}
-
-resource "aws_iam_policy" "policydocument" {
-  name        = "ssm_lambda-inlinepolicy"
-  policy      = data.aws_iam_policy_document.ssm_lambda_inline.json
-}*/
-
-
-
 #Attach IAM policy role to Lambda
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
   role       = aws_iam_role.lambda_exec.name
-  policy_arn = aws_iam_role.lambda_exec.arn
+  policy_arn = aws_iam_policy.ssm_policy.arn
               
 }
