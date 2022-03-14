@@ -19,12 +19,10 @@ resource "aws_iam_role" "lambda_exec" {
 POLICY
 }
 
-
-##configure inline policy (using data source option to be completed later)
+#configure inline policy (using data source option to be completed later)
 
 resource "aws_iam_policy" "ssm_policy" {
   name        = "ssm_lambda_policy"
-  path        = "/"
   description = "MANAGED BY TERRAFORM Allow ssm_lambda to log"
 
   policy = <<POLICY
@@ -33,13 +31,14 @@ resource "aws_iam_policy" "ssm_policy" {
     "Statement": [
         {
           "Effect": "Allow",
-          "Action": ["log:*"],
-          "Resource": "${aws_lambda_function.ssm_lambda.arn}/*"
+          "Action": ["logs:*"],
+          "Resource": "arn:aws:logs:*:*:*"
         },
+        
         {
           "Effect": "Allow",
           "Action": ["ssm:*"],
-          "Resource": "${aws_lambda_function.ssm_lambda.arn}/*"
+          "Resource": "*"
         }
     ]
 }
