@@ -22,7 +22,7 @@ resource "aws_api_gateway_integration" "lambda_root" {
   resource_id = aws_api_gateway_resource.ssm_APIResource.id
   http_method = aws_api_gateway_method.ssm_APIMethod.http_method
 
-  integration_http_method = "PUT" # while all methods can be used here Lambda function can only be invoked with post
+  integration_http_method = "POST" # while all methods can be used here Lambda function can only be invoked with post
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.ssm_lambda.invoke_arn
 }
