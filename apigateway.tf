@@ -51,17 +51,6 @@ resource "aws_api_gateway_stage" "ssm_APIstage" {
   rest_api_id   = aws_api_gateway_rest_api.ssm_API.id
   stage_name    = "prod"
 }
-#configure path method setting 
-#resource "aws_api_gateway_method_settings" "all" {
-  #rest_api_id = aws_api_gateway_rest_api.ssm_API.id
-  #stage_name  = aws_api_gateway_stage.ssm_APIstage.stage_name
- # method_path = "*/*" 
-
- /* settings {
-    metrics_enabled = true
-    logging_level   = "INFO"
-  }
-}*/
 
 #provide API gateway usage plan
 resource "aws_api_gateway_usage_plan" "ssm-usage-plan" {
